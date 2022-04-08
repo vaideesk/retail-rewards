@@ -22,7 +22,6 @@ const App = () => {
     if (date && purchaseAmount && purchaseAmount !== "") {
       let tempData = [...data];
       tempData.push({ date, purchaseAmount: purchaseAmount })
-       console.log(tempData)
       setData(tempData)
       calculateReward()
     }
