@@ -1,7 +1,7 @@
 import './App.css';
 import purchaseData from './dataset/purchase';
 import { useEffect, useState } from 'react';
-import * as moment from 'moment'
+import  moment from 'moment'
 import { Multiselect } from 'multiselect-react-dropdown';
 
 
@@ -11,7 +11,7 @@ const App = () => {
   const [date, setDate] = useState('');
   const [purchaseAmount, setPurchaseAmount] = useState(0);
   const [monthRewards, setMonthReward] = useState([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0]]);
-  const [filterWithMonths] = useState([{ name: 'Jan', id: 1 }, { name: 'Feb', id: 2 }, { name: 'Mar', id: 3 }, { name: 'April', id: 4 }, { name: 'May', id: 5 }, { name: 'Jun', id: 6 }, { name: 'Jul', id: 7 }, { name: 'Aug', id: 8 }, { name: 'Sept', id: 9 }, { name: 'Oct', id: 10 }, { name: 'Nov', id: 11 }, { name: 'Dec', id: 12 }])
+  const [filterWithMonths] = useState([{ name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 }, { name: 'April', id: 4 }, { name: 'May', id: 5 }, { name: 'June', id: 6 }, { name: 'July', id: 7 }, { name: 'August', id: 8 }, { name: 'September', id: 9 }, { name: 'October', id: 10 }, { name: 'November', id: 11 }, { name: 'December', id: 12 }])
   const [selectedValue] = useState([]);
   const [montwiseRewardValue, setMontwiseRewardValue] = useState(0)
   useEffect(() => {
@@ -19,11 +19,10 @@ const App = () => {
   }, [])
 
   const save = () => {
-    if (date && purchaseAmount && purchaseAmount != "") {
+    if (date && purchaseAmount && purchaseAmount !== "") {
       let tempData = [...data];
-      tempData.push({ date: new Date(date), purchaseAmount: purchaseAmount })
+      tempData.push({ date: new Date(), purchaseAmount: purchaseAmount })
       setData(tempData)
-      console.log(data);
       calculateReward()
     }
   }
@@ -34,10 +33,9 @@ const App = () => {
       let month = moment(element.date).format('M');
       let index = arr.findIndex(x => x[0] == month);
       arr[index][1] = arr[index][1] + calculateRewards(element.purchaseAmount)
-      console.log(month)
+     
     })
     setMonthReward(arr);
-    console.log(arr)
   }
 
   function calculateRewards(price) {
@@ -50,12 +48,10 @@ const App = () => {
   }
 
   function onSelect(selectedList, selectedItem) {
-    console.log(selectedList, selectedItem);
     calculateSelectedMonthReward(selectedList)
   }
 
   function onRemove(selectedList, removedItem) {
-    console.log(selectedList, removedItem);
     calculateSelectedMonthReward(selectedList)
     
   }
@@ -65,8 +61,7 @@ const App = () => {
         selectedList.forEach(element =>{
             value = value + monthRewards[element.id -1][1]
         })
-        console.log(value);
-        setMontwiseRewardValue(value);
+       setMontwiseRewardValue(value);
   }
 
   return (
@@ -77,14 +72,12 @@ const App = () => {
            <div>
             <label>Amount :</label>
             <input type="number" min="1" value={purchaseAmount} onChange={(event) => {
-              console.log(event.target.value);
               setPurchaseAmount(event.target.value)
             }} ></input>
           </div>
           <div>
             <label>Date :</label>
             <input type="date" value={date} onChange={(event) => {
-              console.log(event.target.value);
               setDate(event.target.value)
             }} min="1" ></input>
           </div>
@@ -100,14 +93,14 @@ const App = () => {
               <tbody>
 
                 <tr>
-                  <th>Sr.No</th>
+                  <th>S.No</th>
                   <th>Date</th>
                   <th>Purchase Amount</th>
                 </tr>
                 {data.map((value, index) => {
-                  return <tr key={index}>
-                    <td>{index}</td>
-                    <td>{moment(value.date).format("DD-MM-YYYY")}</td>
+                  return <tr key={index+1}>
+                    <td>{index+1}</td>
+                    <td>{moment(value.date).format("MM-DD-YYYY")}</td>
                     <td>{value.purchaseAmount}</td>
                   </tr>
                 })}
@@ -136,7 +129,7 @@ const App = () => {
 
 
         <div class="margin-wise">
-          Monthly Rewards
+          Rewards History
           <table id="customers">
             <thead></thead>
             <tbody>
